@@ -2,13 +2,17 @@ import express from "express";
 import { createServer } from "http";
 import {Server} from 'socket.io'
 import * as path from 'path'
+import { fileURLToPath } from "url";
 
 const app = express();
 const http = createServer(app);
 const io = new Server(http)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const staticPath = path.join(__dirname,'../frontend')
 
 
-app.use(express.static('frontend'));
+app.use(express.static(staticPath));
 let users = {}
 
 io.on("connection",socket=>{
